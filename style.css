@@ -1,0 +1,152 @@
+:root {
+  --primary-color: #6c5ce7;
+  --secondary-color: #a29bfe;
+  --accent-color: #ff7675;
+  --bg-color: #f8f9fa;
+  --text-color: #2d3436;
+}
+
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+.container { max-width: 800px; margin: 0 auto; padding: 20px; }
+header { text-align: center; margin-bottom: 20px; color: var(--primary-color); }
+
+/* 画面切り替えの制御 */
+.screen { display: none; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
+.screen.active { display: block; animation: fadeIn 0.4s ease-in; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* スタート画面 */
+.start-box { text-align: center; padding: 20px 0; }
+.identity-input-box {
+  background: #f1f2f6; padding: 15px; border-radius: 8px;
+  display: inline-block; margin: 20px 0; width: 80%; max-width: 400px;
+}
+.identity-input-box input {
+  width: 90%; padding: 10px; margin-top: 8px; border: 1px solid #ccc; border-radius: 4px; text-align: center; font-size: 16px;
+}
+
+/* チェックボックス */
+.checkbox-item {
+  display: block; position: relative; padding-left: 35px; margin-bottom: 15px; cursor: pointer; font-size: 15px;
+}
+.checkbox-item input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+.checkmark { position: absolute; top: 0; left: 0; height: 22px; width: 22px; background-color: #eee; border-radius: 4px; }
+.checkbox-item:hover input ~ .checkmark { background-color: #ccc; }
+.checkbox-item input:checked ~ .checkmark { background-color: var(--primary-color); }
+.checkmark:after { content: ""; position: absolute; display: none; left: 8px; top: 4px; width: 5px; height: 10px; border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.checkbox-item input:checked ~ .checkmark:after { display: block; }
+
+/* ゲージ UI */
+#gauge-container { background: #fdfbfb; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #eee;}
+#gauge-container h3 { margin: 0 0 10px 0; text-align: center; font-size: 16px; color: #555; }
+.gauge-row { display: flex; align-items: center; margin-bottom: 8px; font-size: 14px;}
+.gauge-row span { width: 80px; font-weight: bold; }
+.bar-bg { flex-grow: 1; background: #dfe4ea; height: 12px; border-radius: 6px; overflow: hidden; margin-left: 10px;}
+.bar { height: 100%; width: 0%; transition: width 0.5s ease-out; }
+.aggressor { background: #ff4757; }
+.victim { background: #3742fa; }
+.caring { background: #2ed573; }
+.childlike { background: #ffa502; }
+
+/* お部屋探索 UI */
+#room {
+  position: relative; width: 100%; height: 350px; background: #ffeaa7; border-radius: 8px;
+  background-image: repeating-linear-gradient(45deg, #f1f2f6 0, #f1f2f6 20px, #ffeaa7 20px, #ffeaa7 40px);
+  border: 5px solid #dcdde1; margin-bottom: 15px; overflow: hidden;
+}
+.room-item {
+  position: absolute; padding: 10px; font-size: 16px; font-weight: bold; cursor: pointer;
+  background: white; border: 2px solid #2f3542; border-radius: 8px; box-shadow: 2px 2px 0 #2f3542;
+  transition: transform 0.1s;
+}
+.room-item:hover { transform: scale(1.1); }
+.room-item.done { opacity: 0.5; pointer-events: none; filter: grayscale(100%); box-shadow: none; transform: translateY(2px);}
+
+#item-phone { top: 20px; right: 20px; }
+#item-table { top: 120px; left: 50%; transform: translateX(-50%); }
+#item-door { bottom: 20px; left: 20px; }
+#item-bear { bottom: 20px; right: 20px; }
+#item-cookie { top: 40px; left: 40px; }
+#item-wine { bottom: 130px; right: 80px; }
+
+/* 🐛 芋虫ギミック */
+#item-bug {
+  position: absolute; bottom: 10px; left: 120px; font-size: 24px; cursor: pointer;
+  user-select: none; transition: transform 0.1s; z-index: 10;
+}
+#item-bug:active { transform: scale(0.8) translateY(5px); }
+#item-bug.dead { filter: grayscale(100%); pointer-events: none; }
+
+#bug-speech {
+  position: absolute; bottom: 50px; left: 100px; background: rgba(0,0,0,0.8); color: white;
+  padding: 8px 12px; border-radius: 8px; font-size: 12px; z-index: 11; width: 180px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3); pointer-events: none;
+}
+#bug-speech::after {
+  content: ''; position: absolute; bottom: -8px; left: 20px;
+  border-width: 8px 8px 0; border-style: solid; border-color: rgba(0,0,0,0.8) transparent transparent transparent;
+}
+
+/* モーダル UI */
+#modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6);
+  display: flex; justify-content: center; align-items: center; z-index: 1000;
+}
+#modal-content {
+  background: white; width: 90%; max-width: 500px; padding: 25px; border-radius: 12px;
+  max-height: 90vh; overflow-y: auto; text-align: center;
+}
+.hidden { display: none !important; }
+
+/* オプションボタン */
+.option-btn {
+  display: block; width: 100%; padding: 12px; margin-bottom: 10px; font-size: 14px;
+  background: #f1f2f6; border: 2px solid transparent; border-radius: 8px; cursor: pointer; text-align: left;
+}
+.option-btn:hover { background: #dfe4ea; border-color: var(--primary-color); }
+
+/* スライダー＆LINE (前回と同じ) */
+.slider-container { margin: 20px 0; }
+input[type=range] { width: 100%; margin: 15px 0; }
+.slider-labels { display: flex; justify-content: space-between; font-size: 12px; color: #7f8c8d; font-weight: bold; }
+.chat-container { background: #74b9ff; padding: 15px; border-radius: 8px; margin-bottom: 15px; text-align: left;}
+.chat-bubble { background: white; padding: 10px 15px; border-radius: 15px; display: inline-block; position: relative; }
+.chat-bubble::after { content: ''; position: absolute; left: -10px; top: 10px; border-width: 10px; border-style: solid; border-color: transparent white transparent transparent; }
+.timer-bar-container { background: #dfe6e9; height: 10px; border-radius: 5px; margin-bottom: 15px; }
+.timer-bar { background: var(--accent-color); height: 100%; width: 100%; transition: width 0.1s linear; }
+
+/* ボタン・結果 */
+.btn {
+  display: inline-block; width: 100%; padding: 15px; font-size: 16px; font-weight: bold; color: white;
+  background-color: var(--primary-color); border: none; border-radius: 8px; cursor: pointer; transition: 0.3s;
+}
+.btn:hover { background-color: #5548c8; }
+.btn-large { font-size: 18px; padding: 18px; }
+
+#result-content { text-align: center; padding: 20px 0; }
+.result-title { font-size: 26px; color: var(--primary-color); margin-bottom: 15px; font-weight: bold; }
+.result-identity { background: #eee; padding: 10px; border-radius: 5px; font-weight: bold; margin-bottom: 20px; text-align: center; }
+.desc-text { text-align: left; line-height: 1.8; margin-bottom: 20px; }
+.gemi-comment { background: #e3f2fd; padding: 15px; border-left: 5px solid #2196f3; border-radius: 4px; text-align: left; font-size: 14px; }
+
+#item-phone { top: 20px; right: 20px; }
+#item-table { top: 120px; left: 50%; transform: translateX(-50%); }
+#item-door { bottom: 20px; left: 20px; }
+#item-sofa { bottom: 20px; right: 20px; }
+#item-gift { top: 40px; left: 40px; }
+#item-darling { bottom: 130px; right: 80px; background: #ffcccc; border-color: #ff4757; } /* ダーリンちゃんはピンクっぽく！ */
+
+/* 🐛 芋虫ギミックは前回通り！ */
+#item-bug {
+  position: absolute; bottom: 10px; left: 120px; font-size: 24px; cursor: pointer;
+  user-select: none; transition: transform 0.1s; z-index: 10;
+}
+#item-bug:active { transform: scale(0.8) translateY(5px); }
+#item-bug.dead { filter: grayscale(100%); pointer-events: none; }

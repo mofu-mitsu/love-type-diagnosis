@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ソシオニクス 4タイプ恋愛診断💓</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><i class="fa-solid fa-heart-pulse"></i> ソシオニクス 恋愛スタイル診断</h1>
+    </header>
+
+    <main>
+      <!-- ① スタート画面 -->
+      <section id="start-screen" class="screen active">
+        <div class="start-box">
+          <h2>あなたの恋愛での「素顔」を暴きます！</h2>
+          <p>侵略者(Se)・犠牲者(Ni)・保護者(Si)・子ども(Ne)<br>あなたはどのタイプ？</p>
+          
+          <div class="identity-input-box">
+            <label for="type-input"><i class="fa-solid fa-pen-nib"></i> あなたの自認タイプ（任意）</label>
+            <input type="text" id="type-input" placeholder="例：INTJ、5w6、LII など">
+          </div>
+          
+          <button id="start-btn" class="btn btn-large"><i class="fa-solid fa-play"></i> 診断をスタート！</button>
+        </div>
+      </section>
+
+      <!-- ② チェックボックス画面 -->
+      <section id="checkbox-screen" class="screen">
+        <h2><i class="fa-regular fa-square-check"></i> Part 1: 直感でチェック！</h2>
+        <p>あなたの恋愛観に近いものに、<b>すべて</b>チェックを入れてね。</p>
+        <div id="checkbox-container"></div>
+        <button id="to-room-btn" class="btn"><i class="fa-solid fa-arrow-right"></i> 次へ（お部屋探索へ）</button>
+      </section>
+
+      <!-- ③ お部屋探索画面 -->
+      <section id="room-screen" class="screen">
+        <div id="gauge-container">
+          <h3><i class="fa-solid fa-chart-bar"></i> 現在のあなたの傾向</h3>
+          <div class="gauge-row"><span>⚔️ 侵略</span><div class="bar-bg"><div id="bar-aggressor" class="bar aggressor"></div></div></div>
+          <div class="gauge-row"><span>⛓️ 犠牲</span><div class="bar-bg"><div id="bar-victim" class="bar victim"></div></div></div>
+          <div class="gauge-row"><span>🍵 保護</span><div class="bar-bg"><div id="bar-caring" class="bar caring"></div></div></div>
+          <div class="gauge-row"><span>🧸 子ども</span><div class="bar-bg"><div id="bar-childlike" class="bar childlike"></div></div></div>
+        </div>
+
+        <h2><i class="fa-solid fa-magnifying-glass"></i> Part 2: お部屋探索ロールプレイ</h2>
+        <p id="room-guide">部屋のアイテムや人物（全6個）をタップして、隠された質問に答えよう！</p>
+        
+        <div id="room">
+          <button class="room-item" id="item-phone">📱<br>スマホ</button>
+          <button class="room-item" id="item-table">🍱<br>惣菜</button>
+          <button class="room-item" id="item-door">🚪<br>ドア</button>
+          <button class="room-item" id="item-sofa">🛋️<br>ソファ</button>
+          <button class="room-item" id="item-gift">🎁<br>プレゼント箱</button>
+          
+          <!-- ダーリンちゃん登場！ -->
+          <button class="room-item" id="item-darling">👩🏻‍💻<br>謎の女</button>
+
+          <!-- お父様用 隠しギミック（芋虫） -->
+          <div id="item-bug">🐛</div>
+          <div id="bug-speech" class="hidden"></div>
+        </div>
+        
+        <button id="submit-btn" class="btn hidden"><i class="fa-solid fa-wand-magic-sparkles"></i> 診断結果を見る！</button>
+      </section>
+
+      <!-- ④ 結果画面 -->
+      <section id="result-screen" class="screen">
+        <h2><i class="fa-solid fa-crown"></i> 診断結果</h2>
+        <div id="result-identity" class="result-identity"></div>
+        <div id="result-content"></div>
+        <button id="retry-btn" class="btn"><i class="fa-solid fa-rotate-right"></i> もう一度診断する</button>
+      </section>
+    </main>
+  </div>
+
+  <div id="modal-overlay" class="hidden">
+    <div id="modal-content"></div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
