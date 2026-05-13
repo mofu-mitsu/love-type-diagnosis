@@ -1,69 +1,114 @@
 const checkboxQuestions =[
-  { id: "a1", text: "好きになったら自分から積極的にアプローチして、相手を手に入れたい。", type: "aggressor" },
-  { id: "a2", text: "恋愛の駆け引きは嫌いじゃない。むしろ燃える。", type: "aggressor" },
-  { id: "a3", text: "相手が自分に服従したり、自分の影響下にいるのを見ると愛を感じる。", type: "aggressor" },
-  { id: "v1", text: "強くて頼もしい人に強引に迫られたい願望が心のどこかにある。", type: "victim" },
-  { id: "v2", text: "相手が心変わりしないか不安になり、わざと試すような態度をとることがある。", type: "victim" },
-  { id: "v3", text: "基本は尽くすけど、いざとなると抵抗して言いなりにはならない。", type: "victim" },
-  { id: "c1", text: "相手の体調や生活環境を気にかけて、お世話をしてあげるのが好き。", type: "caring" },
-  { id: "c2", text: "一緒に美味しいご飯を食べたり、のんびり過ごす時間が一番の幸せ。", type: "caring" },
-  { id: "c3", text: "激しいアプローチより、穏やかでていねいなやり取りを好む。", type: "caring" },
-  { id: "ch1", text: "自分の独特な趣味や空想的な考えを「変わってるね！」と面白がってほしい。", type: "childlike" },
-  { id: "ch2", text: "面白い話や変わった行動で、相手の気を惹いて一緒に遊びたい。", type: "childlike" },
-  { id: "ch3", text: "生活能力がちょっと低めなので、正直誰かに甘やかされたいしお世話されたい。", type: "childlike" }
+  { id: "a1", text: "好きになったら自分からアプローチしたい。", type: "aggressor" },
+  { id: "a2", text: "恋愛の駆け引きは燃える方だ。", type: "aggressor" },
+  { id: "a3", text: "相手が自分に服従してくれると愛を感じる。", type: "aggressor" },
+  { id: "v1", text: "強引に迫られたい願望がある。", type: "victim" },
+  { id: "v2", text: "相手の愛を試すような態度をとってしまう。", type: "victim" },
+  { id: "v3", text: "尽くすけど、簡単には言いなりにならない。", type: "victim" },
+  { id: "c1", text: "相手の体調や生活のお世話をするのが好き。", type: "caring" },
+  { id: "c2", text: "のんびり穏やかな時間を過ごすのが幸せ。", type: "caring" },
+  { id: "c3", text: "激しいアプローチより、ていねいなやり取りがいい。", type: "caring" },
+  { id: "ch1", text: "自分の変わった考えを面白がってほしい。", type: "childlike" },
+  { id: "ch2", text: "変わった行動で相手の気を惹いて遊びたい。", type: "childlike" },
+  { id: "ch3", text: "正直誰かに甘やかされたいしお世話されたい。", type: "childlike" }
+];
+const presentItems =[
+  { icon: "🍷", name: "高級ワイン", type: "aggressor" },
+  { icon: "🗑️", name: "鼻かんだティッシュ", type: "aggressor" },
+  { icon: "📘", name: "就活マニュアル", type: "aggressor" },
+  { icon: "⌨️", name: "高機能キーボード", type: "aggressor" },
+  { icon: "💡", name: "スマート照明", type: "aggressor" },
+  { icon: "🔖", name: "古い栞", type: "victim" },
+  { icon: "🔮", name: "青いガラス", type: "victim" },
+  { icon: "🌧️", name: "雨音のCD", type: "victim" },
+  { icon: "📖", name: "少し変な本", type: "victim" },
+  { icon: "🌌", name: "深夜感ある雑貨", type: "victim" },
+  { icon: "🍪", name: "手作りの焼き菓子", type: "caring" },
+  { icon: "🛏️", name: "ふかふかブランケット", type: "caring" },
+  { icon: "🍵", name: "高級な日本茶セット", type: "caring" },
+  { icon: "💆", name: "マッサージグッズ", type: "caring" },
+  { icon: "🐛", name: "芋虫", type: "childlike" },
+  { icon: "🔘", name: "謎の検知ボタン", type: "childlike" },
+  { icon: "🎲", name: "カオスなサイコロ", type: "childlike" },
+  { icon: "🎨", name: "創作刺激セット", type: "childlike" },
+  { icon: "🧸", name: "でかいクマのぬいぐるみ", type: "childlike" }
+];
+
+// 🎁 ダーリンちゃんのプレゼント反応ロジック
+const darlingThrowReactions = {
+  "🍷": { reaction: "「おっ、高級ワインやん。私を酔わせてどうするつもりなん？♡」", type: "aggressor" },
+  "🗑️": { reaction: "「は！？ゴミ投げんなや！マジでキレるぞ💢（Se圧にはSe圧で返す）」", type: "aggressor" },
+  "📘": { reaction: "「就活マニュアル…？うるさいわ！私の現実に干渉してくんなや！💢」", type: "aggressor" },
+  "⌨️": { reaction: "「お、高機能キーボード。ええセンスしてるけど、なんか効率求められてるみたいで圧感じるわ…」", type: "aggressor" },
+  "💡": { reaction: "「スマート照明？これで私の行動も管理するつもり？支配欲強いな〜」", type: "aggressor" },
+  "🔖": { reaction: "「古い栞…？なんか意味深やな。私に何を伝えたいん？深読みしちゃうわ…」", type: "victim" },
+  "🔮": { reaction: "「青いガラス。綺麗やけど…こういう『空気感』とか『エモさ』で私を縛ろうとするんやね。」", type: "victim" },
+  "🌧️": { reaction: "「雨音のCD？なんかしんみりするやん。一緒にアンニュイな気分に浸ろうってこと？」", type: "victim" },
+  "📖": { reaction: "「少し変な本…内容が不気味やん。こういう闇深いの、嫌いじゃないけど♡」", type: "victim" },
+  "🌌": { reaction: "「深夜感ある雑貨。私の時間を全部これに染めたいんやろ？執着感じるわー」", type: "victim" },
+  "🍪": { reaction: "「手作りのお菓子！？めっちゃええ匂いする！ありがとう、一緒に食べよ！」", type: "caring" },
+  "🛏️": { reaction: "「ふかふかブランケット〜。はぁ、落ち着くわ。私の体調気遣ってくれてんねんな。」", type: "caring" },
+  "🍵": { reaction: "「日本茶セット。なんか一気にオカン感出たなｗ でもホッとするわー」", type: "caring" },
+  "💆": { reaction: "「マッサージグッズ！最近肩凝ってたんよ、めっちゃ実用的で助かる！」", type: "caring" },
+  "🐛": { reaction: "「ひっ！？なにこれキモッ！…ってなんでこんなもん投げるん！？💢（素に戻る）」", type: "childlike", isBug: true },
+  "🔘": { reaction: "「なんやこのボタン。ポチッ…『未完検知！』って、なんやねんこれアハハ！」", type: "childlike" },
+  "🎲": { reaction: "「カオスなサイコロ？よっしゃ振ってみるわ。…『変な顔する』？なんやその罰ゲーム！」", type: "childlike" },
+  "🎨": { reaction: "「創作刺激セット！え、シール可愛い！一緒にパソコンデコろーや！」", type: "childlike" },
+  "🧸": { reaction: "「でっかいクマ！急に子供みたいなもん渡してきてどうしたん？まぁ抱き心地ええから許す。」", type: "childlike" }
+};
+// 📱 ダーリンちゃんのLINE判定ロジック
+const darlingLineLogic = [
+  { keywords: ["きも", "イラ", "嫌い", "うるさ", "だる", "うざ", "キモ", "ゴミ", "カス"], scoreType: "aggressor", scoreChange: 2, reply: "「は？あんた、そういう冷たい態度とるんやね。まあ、その強気なところも嫌いじゃないけど💢（Se圧にはSe圧で返すわ）」" },
+    { keywords: ["さあ", "わからない", "どうだろ", "なんだろ", "わからん"], scoreType: "childlike", scoreChange: 2, reply: "「あはは！自分の気持ちも言語化できへんの？素直に感情表現できへん不器用さんやなぁ、可愛い♡（弄りがいあるわ）」" },
+  { keywords: ["好き", "愛し", "会いたい", "ダーリン"], scoreType: "caring", scoreChange: 2, reply: "「ふふっ、素直でよろしい♡ その言葉、ちゃんと行動で示してよね？」" },
+  { keywords: ["理由", "なぜ", "定義", "意味", "分析", "論理", "とは"], scoreType: "childlike", scoreChange: 2, reply: "「あーあ、また難しく考えてる。私のノイズで論理(Ti)がフリーズしちゃうの、ほんと可愛いわね🥺」" },
+  { condition: function(text) { return /^[^\w\sぁ-んァ-ヶ一-龠]+$/.test(text) || text.length <= 2; }, scoreType: "aggressor", scoreChange: 2, reply: "「え、短ッ。記号だけ？適当にあしらってるん？それとも照れ隠しの圧？（Se的な力技を感じるわ）」" },
+  { condition: function(text) { return /^[ぁ-んー]+$/.test(text) && text.length >= 4; }, scoreType: "childlike", scoreChange: 2, reply: "「ひらがなばっかやん！赤ちゃん(Ne)みたいで可愛いな。よしよし、甘やかしたるわ👶」" },
+  { condition: function(text) { return text.length > 10 && (text.match(/[一-龠]/g) ||[]).length > text.length * 0.4; }, scoreType: "victim", scoreChange: 2, reply: "「漢字多くて堅っ苦しいわ！でも、そこまで深読み(Ni)して焦ってるの…ゾクゾクする♡」" },
+  { keywords:[], scoreType: "victim", scoreChange: 2, reply: "「ふふっ、なるほどね。あなたの思考パターン、完全に読めたわ♡」" }
 ];
 
 const roomQuestions = {
-  phone: {
-    type: "chat", text: "📱 恋人からのLINEだ！即レスして！", chatMsg: "ねえねえ、次の休みのデート、どこ行きたい？",
-    options:[
-      { text: "「私の行きたいとこリスト送るから付いてきて！」", scoreType: "aggressor" },
-      { text: "「んー、君が連れてってくれるとこならどこでもいいよ！」", scoreType: "victim" },
-      { text: "「最近疲れてるみたいだったし、家でまったり美味しいもの食べよっか」", scoreType: "caring" },
-      { text: "「適当に電車乗って、知らない駅で降りて探検しよ！！！」", scoreType: "childlike" }
-    ]
-  },
+  phone: { type: "free_text", text: "📱 恋人からのLINEだ！即レスして！", chatMsg: "ねえねえ、今の私のことどう思ってる？素直な気持ち教えて♡", question: "（直感で返信を入力して「送信」を押してね！）" },
   table: {
-    type: "normal", text: "🍱 あるある・お惣菜問題", question: "付き合って初めて恋人の家へ！出されたのは『スーパーのお惣菜』でした。あなたの心境は？",
+    type: "normal", text: "🍱 あるある・お惣菜問題", question: "恋人の家で出されたのが『スーパーのお惣菜』でした。心境は？",
     options:[
-      { text: "「え？私への愛はその程度？手抜きされた…（愛されてない？）」", scoreType: "childlike" }, 
-      { text: "「ん？これなら私の方が美味しく作れるから、次は私が作ってあげるよ！」", scoreType: "caring" }, 
-      { text: "「おっ、準備早いじゃん！食べたらすぐイチャつけるね！」", scoreType: "aggressor" }, 
-      { text: "「私に気を使わず、素を出してくれてるってことかな？（と深読みする）」", scoreType: "victim" } 
+      { text: "「私への愛はその程度？手抜きされた…」", scoreType: "childlike" }, 
+      { text: "「次は私が美味しいもの作ってあげるよ！」", scoreType: "caring" }, 
+      { text: "「おっ、準備早いじゃん！すぐ食べよ！」", scoreType: "aggressor" }, 
+      { text: "「私に気を遣わず素を出してくれてるのかな？」", scoreType: "victim" } 
     ]
   },
-  door: {
-    type: "slider", text: "🚪 玄関での駆け引き", question: "デートの別れ際。主導権（リード）はどっちが握りたい？",
-    labels: ["A: 完全にリードされたい", "B: ゴリゴリにリードしたい"]
-  },
+  door: { type: "slider", text: "🚪 玄関での駆け引き", question: "デートの別れ際。主導権（リード）はどっちが握りたい？" },
   sofa: {
-    type: "normal", text: "🛋️ 不機嫌な恋人", question: "恋人がソファでなんだか不機嫌そうにしています。あなたはどうする？",
+    type: "normal", text: "🛋️ 不機嫌な恋人", question: "恋人が不機嫌そうです。あなたはどうする？",
     options:[
-      { text: "「なに不機嫌になってんの？言いたいことあるなら言えよ！」と直接揺さぶる。", scoreType: "aggressor" },
-      { text: "「怒ってるのかな…」と不安になり、わざと冷たくして相手の反応を試す。", scoreType: "victim" },
-      { text: "「疲れてるのかな」と察して、温かい飲み物を黙って置いてあげる。", scoreType: "caring" },
-      { text: "横に座って変な顔をしたり、冗談を言ってちょっかいを出す（反応実験！）。", scoreType: "childlike" }
+      { text: "「なに不機嫌になってんの？」と直接揺さぶる。", scoreType: "aggressor" },
+      { text: "「怒ってるのかな…」とわざと冷たくして反応を試す。", scoreType: "victim" },
+      { text: "「疲れてるのかな」と察して、温かい飲み物を置く。", scoreType: "caring" },
+      { text: "「なぜ不機嫌なのか」理由を分析し、わからなければ聞く。", scoreType: "childlike" }
     ]
   },
-  // 🌟 プレゼント問題変更！ 🌟
-  gift: {
-    type: "normal", text: "🎁 恋人へのプレゼント選び", question: "恋人にプレゼントをあげるなら、どのアイテムにする？",
+  darling: { type: "throw", text: "👩🏻‍💻 退屈なダーリンちゃん", question: "ダーリンちゃん：「あーあ、暇やなぁ。なんかおもっしょいもん投げてくれん？」" },
+  
+  // ★追加ギミック：ENTJたちからのアプローチ！★
+  pc: {
+    type: "normal", text: "💻 ENTJたちからのアプローチ！", 
+    question: "タイプの違う2人のENTJから同時にアプローチされました。<br><br><b>① SLE（侵略者）</b><br>「付き合って欲しいのか？ 10万💰」<br><br><b>② LIE（犠牲者）</b><br>「睡眠削って性能落としてるの惜しいからまず寝ろ。お前、面白いから横にいろ。」<br><br>あなたの反応は？",
     options:[
-      { text: "🍷 ワイン （ムードを作って、相手を自分のペースに引き込みたい！）", scoreType: "aggressor" },
-      { text: "🐛 芋虫のおもちゃ （あえてキモいものを投下して、予想外の反応や怒る顔が見たい）", scoreType: "victim" },
-      { text: "🍪 手作りの焼き菓子 （美味しく食べて、健康でいてほしい）", scoreType: "caring" },
-      { text: "🧸 大きなクマのぬいぐるみ （一緒に遊べるし、自分も抱っこして癒やされたい）", scoreType: "childlike" }
+      { text: "SLEの『10万💰』オモロ！交渉に乗るか、さらに煽り返す！", scoreType: "aggressor", scoreChange: 2 },
+      { text: "LIEの『未来ごと包囲してくる』感じ、悪くないかも…♡（畏怖）", scoreType: "victim", scoreChange: 2 },
+      // ★ Si提供（オカン）側に誘導するように修正！
+      { text: "LIEの不器用な優しさ（Te）を感じるから、温かいお茶でも淹れて支えてあげたい", scoreType: "caring", scoreChange: 2 },
+      { text: "どっちも圧が強い！私は私のペースで好き勝手に遊びたいの！", scoreType: "childlike", scoreChange: 2 },
+      { text: "圧すごｗｗおもろｗｗ（※適当にあしらって観察する）", scoreType: "childlike", scoreChange: 2 },
+      { text: "SLEの『10万』とか意味不明でドン引き…力技には耐えられないから逃げる。", scoreType: "aggressor", scoreChange: -2 }
     ]
   },
-  // 🌟 ダーリンちゃんギミック追加！ 🌟
-  darling: {
-    type: "normal", text: "👩🏻‍💻 Feインターフェースの女", question: "「ねえダーリン♡ あなたの頭の中にある『完璧な恋愛シミュレーション』、私の気まぐれなノイズが一つでも混じったら、あっという間に崩れ去る『ただの砂上の楼閣』になっちゃうんでしょ……？🥺 はぁ……論理（Ti）がめちゃくちゃになって困惑する顔、すごく見たいな……💕」",
-    options:[
-      { text: "「う、うるさい！私の完璧な法則から外れるな！（と理詰めで言い返す）」", scoreType: "childlike" }, // Ti-Neの葛藤
-      { text: "「ダーリンって何？イラッとくる💢（※ESI母の憑依：Fe完全拒絶）」", scoreType: "aggressor" }, // Fi-Seの反応
-      { text: "「はいはい、そういう設定ね。疲れてるならお茶でも淹れようか？」", scoreType: "caring" }, // Siのオカン対応
-      { text: "「……いいよ、もっと君の予測不能なノイズで僕を壊してみて？」", scoreType: "victim" } // Niの深淵へダイブ
-    ]
+  // ★新ミニゲーム追加！★
+  eye: {
+    type: "hold_game", text: "👁️ 見つめ合いゲーム", 
+    question: "ダーリンちゃんがじーっと見つめてきた！<br><b>下の顔を『長押し』して見つめ返そう！</b><br>限界だと思ったら指（マウス）を離してね。"
   }
 };
 
@@ -86,6 +131,6 @@ const resultsData = {
   childlike: { 
     title: "🧸 子どもタイプ (Ne優勢)", 
     desc: "一緒に面白おかしく遊びたい無邪気なタイプ！あなたの空想やアイディアを面白がってくれる人を求めます。たまにはお世話されて甘えたい願望も。", 
-    gemi: "アルファ・デルタ・クアドラのNe持ち（ILE, LII, IEE, EII）に多い傾向があるよ！<br>生活面をサポートしてくれる保護者タイプ（Si）に安心感を覚えやすいと言われています。「お惣菜で愛を測る」など、愛情表現に独特のこだわりがあるかも？" 
+    gemi: "アルファ・デルタ・クアドラのNe持ち（ILE, LII, IEE, EII）に多い傾向があるよ！<br>「お惣菜で愛を測る」など、愛情表現に独特のこだわりがあるかも？相手の反応が見たくて変なボタンや芋虫をプレゼントしがちｗｗ" 
   }
 };
