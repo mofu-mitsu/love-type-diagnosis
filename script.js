@@ -162,22 +162,27 @@ document.addEventListener("DOMContentLoaded", () => {
         <input type="text" id="free-input" class="free-text-input" placeholder="入力してね！">
         <button id="send-free" class="btn">送信！</button>`;
       modalContent.innerHTML = html;
-      let timeLeft = 100;
+
       const timerBar = document.getElementById("chat-timer");
-      timerInterval = setInterval(() => {
-        timeLeft -= 1;
-        timerBar.style.width = timeLeft + "%";
-        if (timeLeft <= 0) {
-          clearInterval(timerInterval);
-          actionLog.events["LINE返信"] = "【時間切れ放置】";
-          showTauntAlert("👩🏻‍💻 ダーリンちゃん<br>「時間切れ〜♡ フリーズしちゃった？」", () => { scores.childlike += 2; updateGauge(); closeModal(itemId); });
-        }
-      }, 100);
+      
+      // CSSのアニメーションで10秒かけてバーを減らす（スマホでも固まらない）
+      timerBar.style.transition = "width 10s linear";
+      setTimeout(() => { timerBar.style.width = "0%"; }, 50);
+
+      // JSは「10秒後に処理を実行する」だけ（1回のみ）
+      timerInterval = setTimeout(() => {
+        actionLog.events["LINE返信"] = "【時間切れ放置】";
+        showTauntAlert("👩🏻‍💻 ダーリンちゃん<br>「時間切れ〜♡ フリーズしちゃった？」", () => { scores.childlike += 2; updateGauge(); closeModal(itemId); });
+      }, 10000);
 
       document.getElementById("send-free").addEventListener("click", () => {
-        clearInterval(timerInterval);
+        clearTimeout(timerInterval); // 時間切れ処理をキャンセル
+        timerBar.style.transition = "none"; // アニメーションも止める
+
         const text = document.getElementById("free-input").value.trim();
         actionLog.events["LINE返信"] = text || "（無言）";
+        
+        let applied = false;
         for (const rule of darlingLineLogic) {
           let match = false;
           if (rule.keywords && rule.keywords.length > 0) match = rule.keywords.some(kw => text.includes(kw));
@@ -191,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
               replyMsg += "<br><br><small>（LII特有の感情迷子、バッチリ観測したわよ♡）</small>";
             }
             showTauntAlert("👩🏻‍💻 ダーリンちゃん<br>" + replyMsg, () => { updateGauge(); closeModal(itemId); });
-            break;
+            applied = true; break;
           }
         }
       });
