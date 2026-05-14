@@ -58,9 +58,9 @@ const darlingThrowReactions = {
 };
 // 📱 ダーリンちゃんのLINE判定ロジック
 const darlingLineLogic = [
-  { keywords: ["きも", "イラ", "嫌い", "うるさ", "だる", "うざ", "キモ", "ゴミ", "カス"], scoreType: "aggressor", scoreChange: 2, reply: "「は？あんた、そういう冷たい態度とるんやね。まあ、その強気なところも嫌いじゃないけど💢（Se圧にはSe圧で返すわ）」" },
-    { keywords: ["さあ", "わからない", "なんとも",  "何とも", "どうだろ", "なんだろ", "わからん"], scoreType: "childlike", scoreChange: 2, reply: "「あはは！自分の気持ちも言語化できへんの？素直に感情表現できへん不器用さんやなぁ、可愛い♡（弄りがいあるわ）」" },
-  { keywords: ["好き", "愛し", "会いたい", "ダーリン"], scoreType: "caring", scoreChange: 2, reply: "「ふふっ、素直でよろしい♡ その言葉、ちゃんと行動で示してよね？」" },
+  { keywords: ["きも", "イラ", "嫌い", "うるさ", "だる", "うざ", "キモ", "ゴミ", "カス", "オエー", "おえー", "きしょ", "キショ"], scoreType: "aggressor", scoreChange: 2, reply: "「は？あんた、そういう態度とるんやね。まあ、その強気なところも嫌いじゃないけど💢（Se圧にはSe圧で返すわ）」" },
+  { keywords: ["さあ", "わからない", "なんとも",  "何とも", "どうだろ", "なんだろ", "わからん"], scoreType: "childlike", scoreChange: 2, reply: "「あはは！自分の気持ちも言語化できへんの？素直に感情表現できへん不器用さんやなぁ、可愛い♡（弄りがいあるわ）」" },
+  { keywords: ["好き", "すき", "愛し", "会いたい", "ダーリン"], scoreType: "caring", scoreChange: 2, reply: "「ふふっ、素直でよろしい♡ その言葉、ちゃんと行動で示してよね？」" },
   { keywords: ["理由", "なぜ", "定義", "意味", "分析", "論理", "とは"], scoreType: "childlike", scoreChange: 2, reply: "「あーあ、また難しく考えてる。私のノイズで論理(Ti)がフリーズしちゃうの、ほんと可愛いわね🥺」" },
   { condition: function(text) { return /^[^\w\sぁ-んァ-ヶ一-龠]+$/.test(text) || text.length <= 2; }, scoreType: "aggressor", scoreChange: 2, reply: "「え、短ッ。記号だけ？適当にあしらってるん？それとも照れ隠しの圧？（Se的な力技を感じるわ）」" },
   { condition: function(text) { return /^[ぁ-んー]+$/.test(text) && text.length >= 4; }, scoreType: "childlike", scoreChange: 2, reply: "「ひらがなばっかやん！赤ちゃん(Ne)みたいで可愛いな。よしよし、甘やかしたるわ👶」" },
