@@ -69,7 +69,7 @@ const darlingLineLogic = [
 ];
 
 const roomQuestions = {
-  phone: { type: "free_text", text: "📱 恋人からのLINEだ！即レスして！", chatMsg: "ねえねえ、今の私のことどう思ってる？素直な気持ち教えて♡", question: "（直感で返信を入力して「送信」を押してね！）" },
+  phone: { type: "free_text", text: "📱 恋人からのLINEだ！即レスして！", chatMsg: "ねえ、ダーリン♡ 今の私のことどう思ってる？素直な気持ち教えて♡", question: "（直感で返信を入力して「送信」を押してね！）" },
   table: {
     type: "normal", text: "🍱 あるある・お惣菜問題", question: "恋人の家で出されたのが『スーパーのお惣菜』でした。心境は？",
     options:[
