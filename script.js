@@ -381,9 +381,23 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById("share-nav-btn").addEventListener("click", () => {
-    const shareData = { title: 'ソシオニクス恋愛スタイル診断', text: '私のソシオニクス恋愛スタイルを診断したよ！\n#ソシオニクス恋愛診断\n', url: 'https://mofu-mitsu.github.io/love-type-diagnosis' };
-    if (navigator.share) navigator.share(shareData).catch(err => console.log('Share error:', err));
-    else window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.text)}&url=${encodeURIComponent(shareData.url)}`, "_blank");
+    // 現在の結果タイプ名を取得（結果画面に表示されているタイトル）
+    const resultTitle = document.querySelector(".result-title").innerText;
+    
+    const shareData = {
+      title: 'ソシオニクス恋愛スタイル診断',
+      text: `私のソシオニクス恋愛スタイルは【${resultTitle}】でした！\n#ソシオニクス恋愛診断\n`,
+      url: 'https://mofu-mitsu.github.io/love-type-diagnosis'
+    };
+
+    if (navigator.share) {
+      navigator.share(shareData).catch(err => console.log('Share error:', err));
+    } else {
+      // 非対応ブラウザ用のフォールバック（X/Twitterへ）
+      const tweetText = encodeURIComponent(shareData.text);
+      const tweetUrl = encodeURIComponent(shareData.url);
+      window.open(`https://twitter.com/intent/tweet?text=${tweetText}&url=${tweetUrl}`, "_blank");
+    }
   });
 
   document.getElementById("retry-btn").addEventListener("click", () => { location.reload(); });
