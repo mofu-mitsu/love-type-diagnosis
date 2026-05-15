@@ -21,7 +21,7 @@ const presentItems =[
   { icon: "🔖", name: "古い栞", type: "victim" },
   { icon: "🔮", name: "青いガラス", type: "victim" },
   { icon: "🌧️", name: "雨音のCD", type: "victim" },
-  { icon: "📖", name: "少し変な本", type: "victim" },
+  { icon: "📖", name: "無題の不気味な詩集", type: "victim" },
   { icon: "🌌", name: "深夜感ある雑貨", type: "victim" },
   { icon: "🍪", name: "手作りの焼き菓子", type: "caring" },
   { icon: "🛏️", name: "ふかふかブランケット", type: "caring" },
@@ -44,7 +44,7 @@ const darlingThrowReactions = {
   "🔖": { reaction: "「古い栞…？なんか意味深やな。私に何を伝えたいん？深読みしちゃうわ…」", type: "victim" },
   "🔮": { reaction: "「青いガラス。綺麗やけど…こういう『空気感』とか『エモさ』で私を縛ろうとするんやね。」", type: "victim" },
   "🌧️": { reaction: "「雨音のCD？なんかしんみりするやん。一緒にアンニュイな気分に浸ろうってこと？」", type: "victim" },
-  "📖": { reaction: "「少し変な本…内容が不気味やん。こういう闇深いの、嫌いじゃないけど♡」", type: "victim" },
+  "📖": { reaction: "「不気味な詩集…内容が入ってこんわ。こういう闇深いの、嫌いじゃないけど♡」", type: "victim" },
   "🌌": { reaction: "「深夜感ある雑貨。私の時間を全部これに染めたいんやろ？執着感じるわー」", type: "victim" },
   "🍪": { reaction: "「手作りのお菓子！？めっちゃええ匂いする！ありがとう、一緒に食べよ！」", type: "caring" },
   "🛏️": { reaction: "「ふかふかブランケット〜。はぁ、落ち着くわ。私の体調気遣ってくれてんねんな。」", type: "caring" },
@@ -58,7 +58,7 @@ const darlingThrowReactions = {
 };
 // 📱 ダーリンちゃんのLINE判定ロジック
 const darlingLineLogic = [
-  { keywords: ["きも", "イラ", "嫌い", "うるさ", "だる", "うざ", "キモ", "ゴミ", "カス", "オエー", "おえー", "きしょ", "キショ"], scoreType: "aggressor", scoreChange: 2, reply: "「は？あんた、そういう態度とるんやね。まあ、その強気なところも嫌いじゃないけど💢（Se圧にはSe圧で返すわ）」" },
+  { keywords: ["きも", "イラ", "苛", "いらっ", "嫌い", "うるさ", "だる", "うざ", "キモ", "ゴミ", "カス", "オエー", "おえー", "きしょ", "キショ"], scoreType: "aggressor", scoreChange: 2, reply: "「は？あんた、そういう態度とるんやね。まあ、その強気なところも嫌いじゃないけど💢（Se圧にはSe圧で返すわ）」" },
   { keywords: ["さあ", "わからない", "なんとも",  "何とも", "どうだろ", "なんだろ", "わからん"], scoreType: "childlike", scoreChange: 2, reply: "「あはは！自分の気持ちも言語化できへんの？素直に感情表現できへん不器用さんやなぁ、可愛い♡（弄りがいあるわ）」" },
   { keywords: ["好き", "すき", "愛し", "会いたい", "ダーリン"], scoreType: "caring", scoreChange: 2, reply: "「ふふっ、素直でよろしい♡ その言葉、ちゃんと行動で示してよね？」" },
   { keywords: ["理由", "なぜ", "定義", "意味", "分析", "論理", "とは"], scoreType: "childlike", scoreChange: 2, reply: "「あーあ、また難しく考えてる。私のノイズで論理(Ti)がフリーズしちゃうの、ほんと可愛いわね🥺」" },
@@ -76,14 +76,14 @@ const roomQuestions = {
       { text: "「私への愛はその程度？手抜きされた…」", scoreType: "childlike" }, 
       { text: "「次は私が美味しいもの作ってあげるよ！」", scoreType: "caring" }, 
       { text: "「おっ、準備早いじゃん！すぐ食べよ！」", scoreType: "aggressor" }, 
-      { text: "「私に気を遣わず素を出してくれてるのかな？」", scoreType: "victim" } 
+      { text: "「お惣菜…？もしや何か深い理由（不器用な愛）が隠されている…？」", scoreType: "victim" }
     ]
   },
   door: { type: "slider", text: "🚪 玄関での駆け引き", question: "デートの別れ際。主導権（リード）はどっちが握りたい？" },
   sofa: {
     type: "normal", text: "🛋️ 不機嫌な恋人", question: "恋人が不機嫌そうです。あなたはどうする？",
     options:[
-      { text: "「なに不機嫌になってんの？」と直接揺さぶる。", scoreType: "aggressor" },
+      { text: "「なに不機嫌になってんの？」と直接揺さぶる。", scoreType: "aggressor", scoreChange: 2 },
       { text: "「怒ってるのかな…」とわざと冷たくして反応を試す。", scoreType: "victim" },
       { text: "「疲れてるのかな」と察して、温かい飲み物を置く。", scoreType: "caring" },
       { text: "「なぜ不機嫌なのか」理由を分析し、わからなければ聞く。", scoreType: "childlike" }
@@ -99,6 +99,7 @@ const roomQuestions = {
       { text: "SLEの『10万💰』オモロ！交渉に乗るか、さらに煽り返す！", scoreType: "aggressor", scoreChange: 2 },
       { text: "LIEの『未来ごと包囲してくる』感じ、悪くないかも…♡（畏怖）", scoreType: "victim", scoreChange: 2 },
       // ★ Si提供（オカン）側に誘導するように修正！
+      { text: "どっちも土足で踏み込んで来すぎ💢 私の境界線は絶対に越えさせない！", scoreType: "aggressor", scoreChange: 2 },
       { text: "LIEの不器用な優しさ（Te）を感じるから、温かいお茶でも淹れて支えてあげたい", scoreType: "caring", scoreChange: 2 },
       { text: "どっちも圧が強い！私は私のペースで好き勝手に遊びたいの！", scoreType: "childlike", scoreChange: 2 },
       { text: "圧すごｗｗおもろｗｗ（※適当にあしらって観察する）", scoreType: "childlike", scoreChange: 2 },
