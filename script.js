@@ -164,24 +164,22 @@ document.addEventListener("DOMContentLoaded", () => {
       modalContent.innerHTML = html;
 
       const timerBar = document.getElementById("chat-timer");
+      const freeInput = document.getElementById("free-input");
       
-      // CSSのアニメーションで10秒かけてバーを減らす（スマホでも固まらない）
-      timerBar.style.transition = "width 10s linear";
-      setTimeout(() => { timerBar.style.width = "0%"; }, 50);
+      // ★フリーズ対策！CSSアニメーションでバーを減らす
+      timerBar.style.width = "100%";
+      setTimeout(() => {
+        timerBar.style.transition = "width 15s linear"; // ★15秒に延長！
+        timerBar.style.width = "0%";
+      }, 50);
 
-      // JSは「10秒後に処理を実行する」だけ（1回のみ）
-      timerInterval = setTimeout(() => {
-        actionLog.events["LINE返信"] = "【時間切れ放置】";
-        showTauntAlert("👩🏻‍💻 ダーリンちゃん<br>「時間切れ〜♡ フリーズしちゃった？」", () => { scores.childlike += 2; updateGauge(); closeModal(itemId); });
-      }, 10000);
-
-      document.getElementById("send-free").addEventListener("click", () => {
-        clearTimeout(timerInterval); // 時間切れ処理をキャンセル
-        timerBar.style.transition = "none"; // アニメーションも止める
-
-        const text = document.getElementById("free-input").value.trim();
+      // ★判定・送信処理を関数化！
+      const processReply = (text, isTimeout) => {
         actionLog.events["LINE返信"] = text || "（無言）";
         
+        // ★時間切れ書きかけ送信用の追加煽り
+        let timeoutPrefix = isTimeout ? "<strong style='color:#ff4757;'>「ちょっと、途中で送ってきなや！焦りすぎちゃう？ｗｗ」</strong><br><br>" : "";
+
         let applied = false;
         for (const rule of darlingLineLogic) {
           let match = false;
@@ -192,16 +190,38 @@ document.addEventListener("DOMContentLoaded", () => {
           if (match) {
             scores[rule.scoreType] += rule.scoreChange;
             let replyMsg = rule.reply;
-            if (document.getElementById("type-input").value.trim().toUpperCase().includes("LII") && rule.scoreType === "childlike") {
+            const idVal = document.getElementById("type-input").value.trim().toUpperCase();
+            if (idVal.includes("LII") && rule.scoreType === "childlike") {
               replyMsg += "<br><br><small>（LII特有の感情迷子、バッチリ観測したわよ♡）</small>";
             }
-            showTauntAlert("👩🏻‍💻 ダーリンちゃん<br>" + replyMsg, () => { updateGauge(); closeModal(itemId); });
+            showTauntAlert("👩🏻‍💻 ダーリンちゃん<br>" + timeoutPrefix + replyMsg, () => { updateGauge(); closeModal(itemId); });
             applied = true; break;
           }
         }
+      };
+
+      // ★15秒後の処理（ループを使わないから固まらない！）
+      timerInterval = setTimeout(() => {
+        const text = freeInput.value.trim();
+        if (text.length > 0) {
+          // 何か入力していたら、書きかけで強制送信！
+          processReply(text, true);
+        } else {
+          // 何も入力していなければ、時間切れ放置
+          actionLog.events["LINE返信"] = "【時間切れ放置】";
+          showTauntAlert("👩🏻‍💻 ダーリンちゃん<br>「時間切れ〜♡ フリーズしちゃった？」", () => { scores.childlike += 2; updateGauge(); closeModal(itemId); });
+        }
+      }, 15000); // 15秒
+
+      // ★手動で送信ボタンを押した時の処理
+      document.getElementById("send-free").addEventListener("click", () => {
+        clearTimeout(timerInterval); // 時間切れ処理をキャンセル
+        timerBar.style.transition = "none"; // アニメーションを止める
+        const text = freeInput.value.trim();
+        processReply(text, false);
       });
 
-    } else if (data.type === "slider") {
+    } else if (data.type === "slider") { // ←ここから下は前のコードと同じ！
       let html = `<h3>${data.text}</h3><p>${data.question}</p>
         <div class="slider-container">
           <div class="slider-labels"><span>完全に委ねたい</span><span>ゴリゴリに支配したい</span></div>
