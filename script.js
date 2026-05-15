@@ -281,7 +281,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 100);
       };
 
-      const endHold = () => {
+const endHold = () => {
         if (!isHolding) return;
         isHolding = false; clearInterval(holdTimer);
         stareArea.classList.remove("pressure-heartbeat"); stareArea.style.transform = "scale(1)"; stareArea.style.background = "#ffcccc";
@@ -290,10 +290,23 @@ document.addEventListener("DOMContentLoaded", () => {
         actionLog.events["見つめ合い"] = `${holdTime} ミリ秒`; 
 
         let scoreType = ""; let msg = "";
-        if (holdTime < 3000) { scoreType = "caring"; msg = "👩🏻‍💻 ダーリンちゃん<br>「ふふ、すぐ目そらした。優しく見守ってくれたんやね〜」"; }
-        else if (holdTime < 6000) { scoreType = "childlike"; msg = "👩🏻‍💻 ダーリンちゃん<br>「圧出してから離したやろ！観察して遊んでたんやな？おもろい奴♡」"; }
-        else if (holdTime < 9000) { scoreType = "aggressor"; msg = "👩🏻‍💻 ダーリンちゃん<br>「バチバチやん！その強い視線の圧、嫌いじゃないで🔥」"; }
-        else { scoreType = "victim"; msg = "👩🏻‍💻 ダーリンちゃん<br>「……そこまで耐えるなんて、完全に私に屈服されたがってるやん♡（畏怖）」"; }
+        // ★ 判定ロジックのさらなる微調整！
+        if (holdTime < 3000) { 
+          scoreType = "caring"; 
+          msg = "👩🏻‍💻 ダーリンちゃん<br>「ふふ、すぐ目そらした。優しく見守ってくれたんやね〜」"; 
+        }
+        else if (holdTime < 8000) { // 8秒までは「面白がってる」子どもタイプ！
+          scoreType = "childlike"; 
+          msg = "👩🏻‍💻 ダーリンちゃん<br>「圧出してから離したやろ！観察して遊んでたんやな？おもろい奴♡」"; 
+        }
+        else if (holdTime < 12000) { // 12秒までは「バチバチ」の侵略者！
+          scoreType = "aggressor"; 
+          msg = "👩🏻‍💻 ダーリンちゃん<br>「バチバチやん！その強い視線の圧、嫌いじゃないで🔥」"; 
+        }
+        else { // 12秒を超えたら「畏怖を突き抜けて屈服」の犠牲者判定！
+          scoreType = "victim"; 
+          msg = "👩🏻‍💻 ダーリンちゃん<br>「……そこまで耐えるなんて、完全に私に屈服されたがってるやん♡（畏怖）」"; 
+        }
         
         scores[scoreType] += 2; updateGauge();
         showTauntAlert(msg, () => { closeModal(itemId); });
