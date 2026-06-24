@@ -64,9 +64,11 @@ const darlingLineLogic = [
   { keywords: ["さあ", "わからない", "なんとも",  "何とも", "どうだろ", "なんだろ", "わからん"], scoreType: "childlike", scoreChange: 2, reply: "「あはは！自分の気持ちも言語化できへんの？素直に感情表現できへん不器用さんやなぁ、可愛い♡（弄りがいあるわ）」" },
   { keywords: ["好き", "すき", "愛し", "会いたい", "ダーリン", "休め", "疲れてる", "壊れる", "お茶", "ご飯", "大丈夫"], scoreType: "caring", scoreChange: 2, reply: "「ふふっ、素直でよろしい♡ その言葉、ちゃんと行動で示してよね？」" },
   { keywords: ["理由", "なぜ", "定義", "意味", "分析", "論理", "とは"], scoreType: "childlike", scoreChange: 2, reply: "「あーあ、また難しく考えてる。私のノイズで論理(Ti)がフリーズしちゃうの、ほんと可愛いわね🥺」" },
-  { condition: function(text) { return /^[^\w\sぁ-んァ-ヶ一-龠]+$/.test(text) || text.length <= 2; }, scoreType: "aggressor", scoreChange: 2, reply: "「え、短ッ。記号だけ？適当にあしらってるん？それとも照れ隠しの圧？（Se的な力技を感じるわ）」" },
+  // ★ [一-龠] を [\u4E00-\u9FFF] に書き換え！
+  { condition: function(text) { return /^[^\w\sぁ-んァ-ヶ\u4E00-\u9FFF]+$/.test(text) || text.length <= 2; }, scoreType: "aggressor", scoreChange: 2, reply: "「え、短ッ。記号だけ？適当にあしらってるん？それとも照れ隠しの圧？（Se的な力技を感じるわ）」" },
   { condition: function(text) { return /^[ぁ-んー]+$/.test(text) && text.length >= 4; }, scoreType: "childlike", scoreChange: 2, reply: "「ひらがなばっかやん！赤ちゃん(Ne)みたいで可愛いな。よしよし、甘やかしたるわ👶」" },
-  { condition: function(text) { return text.length > 10 && (text.match(/[一-龠]/g) ||[]).length > text.length * 0.4; }, scoreType: "victim", scoreChange: 2, reply: "「漢字多くて堅っ苦しいわ！でも、そこまで深読み(Ni)して焦ってるの…ゾクゾクする♡」" },
+  // ★ [一-龠] を [\u4E00-\u9FFF] に書き換え！
+  { condition: function(text) { return text.length > 10 && (text.match(/[\u4E00-\u9FFF]/g) ||[]).length > text.length * 0.4; }, scoreType: "victim", scoreChange: 2, reply: "「漢字多くて堅っ苦しいわ！でも、そこまで深読み(Ni)して焦ってるの…ゾクゾクする♡」" },
   { keywords:[], scoreType: "victim", scoreChange: 2, reply: "「ふふっ、なるほどね。あなたの思考パターン、完全に読めたわ♡」" }
 ];
 
